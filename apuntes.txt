@@ -1,0 +1,30 @@
+
+
+Home of Quarkus Cheat-Sheet
+
+https://lordofthejars.github.io/quarkus-cheat-sheet/#quarkuscheatsheet
+
+
+Guías:
+
+https://quarkus.io/guides/
+
+
+Quarkus - Writing JSON REST Services
+
+https://quarkus.io/guides/rest-json
+
+
+resteasy docs:
+
+https://docs.jboss.org/resteasy/docs/4.6.0.Final/userguide/html/
+
+https://docs.jboss.org/resteasy/docs/4.6.0.Final/userguide/html/Using_Path.html
+
+-----------------
+
+al arrancar la app ir a 
+
+localhost:8080 => HTML en src/main/resources/meta-inf/resources
+
+
