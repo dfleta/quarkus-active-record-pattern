@@ -23,8 +23,27 @@ https://docs.jboss.org/resteasy/docs/4.6.0.Final/userguide/html/Using_Path.html
 
 -----------------
 
-al arrancar la app ir a 
+meter este frontend HTML en
 
-localhost:8080 => HTML en src/main/resources/meta-inf/resources
+https://github.com/quarkusio/quarkus-quickstarts/blob/main/rest-json-quickstart/src/main/resources/META-INF/resources/fruits.html
+
+Es necesario modificar los endpoints a los que he escrito yo
+
+----------------
+
+CURL
+
+https://gist.github.com/subfuzion/08c5d85437d5d4f00e58
 
 
+-----------
+
+Testing
+
+https://quarkus.io/guides/getting-started-testing#tests-and-transactions
+
+----------
+
+CDI
+
+https://quarkus.io/guides/cdi-reference
