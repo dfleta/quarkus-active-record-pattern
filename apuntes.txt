@@ -21,7 +21,39 @@ https://docs.jboss.org/resteasy/docs/4.6.0.Final/userguide/html/
 
 https://docs.jboss.org/resteasy/docs/4.6.0.Final/userguide/html/Using_Path.html
 
+
+------------------
+
+JSONB
+
+http://json-b.net/docs/user-guide.html#installation
+
+
 -----------------
+
+Validar parametros /beans:
+
+Hibernate Validator 7.0.1.Final - Jakarta Bean Validation Reference Implementation: Reference Guide
+
+https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#section-builtin-constraints
+
+$ ./mvnw quarkus:list-extensions
+$ ./mvnw quarkus:add-extension -Dextensions="quarkus-hibernate-validator"
+
+$ curl -d '{"description":"Brings a Gorilla too"}' -H "Content-Type: application/json" -X POST http://localhost:8080/fruits -v
+
+-v para salida verbose
+
+-----------------
+
+añadir quitar extensiones:
+
+$ ./mvnw quarkus:list-extensions
+$ ./mvnw quarkus:add-extension -Dextensions="quarkus-hibernate-validator"
+
+$ ./mvnw quarkus:remove-extension -Dextension="quarkus-resteasy-jsonb"
+
+----------------
 
 meter este frontend HTML en
 
@@ -45,6 +77,9 @@ https://quarkus.io/guides/getting-started-testing#tests-and-transactions
 Maven running a single test:
 
 http://maven.apache.org/plugins-archives/maven-surefire-plugin-2.12.4/examples/single-test.html
+
+$ mvn -Dtest=FruitResourceTest test
+$ ./mvnw -Dtest=RepoFruitTest test
 
 ----------
 

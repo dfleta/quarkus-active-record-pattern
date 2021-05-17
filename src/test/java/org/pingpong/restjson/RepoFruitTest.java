@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import javax.inject.Inject;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,10 +28,16 @@ public class RepoFruitTest {
         repo.init();
     }
 
+    // sino, no pasa los rest-test de resource desde mvn test
+    @AfterEach
+    public void teardown() {
+        repo.init();
+    }
+
     @Test
     public void initTest() {
         assertEquals(2, repo.list().size());
-        Assertions.assertThat(2).isEqualTo(repo.list().size());
+        Assertions.assertThat(repo.list().size()).isEqualTo(2);
     }
 
     @Test
