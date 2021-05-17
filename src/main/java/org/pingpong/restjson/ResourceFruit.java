@@ -28,6 +28,9 @@ public class ResourceFruit {
 
     @GET
     @Path("/list")
+    // no es necesario Produces ya que por defecto
+    // resteasy jackson desactiva la negociación
+    // y sirve MediaType.APPLICATION_JSON
     public Set<Fruit> list() {
         return service.list();
     }
@@ -41,6 +44,8 @@ public class ResourceFruit {
     }
 
     @DELETE
+    // $ curl -d '{"name":"Banana", "description":"Brings a Gorilla too"}'
+    // -H "Content-Type: application/json" -X DELETE http://localhost:8080/fruits   
     public Set<Fruit> delete(Fruit fruit) {
         service.remove(fruit.name);
         return list();

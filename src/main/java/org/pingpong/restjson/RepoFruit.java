@@ -18,6 +18,7 @@ public class RepoFruit {
 
     @PostConstruct
     public void init() {
+        fruits.clear();
         fruits.add(new Fruit("Apple", "Winter fruit"));
         fruits.add(new Fruit("Pineapple", "Tropical fruit"));
     }

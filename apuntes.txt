@@ -42,6 +42,10 @@ Testing
 
 https://quarkus.io/guides/getting-started-testing#tests-and-transactions
 
+Maven running a single test:
+
+http://maven.apache.org/plugins-archives/maven-surefire-plugin-2.12.4/examples/single-test.html
+
 ----------
 
 CDI

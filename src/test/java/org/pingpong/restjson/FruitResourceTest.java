@@ -12,6 +12,10 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import javax.ws.rs.core.MediaType;
 
 
+/**
+ * Behavioral testing
+ */
+
 @QuarkusTest
 public class FruitResourceTest {
 
