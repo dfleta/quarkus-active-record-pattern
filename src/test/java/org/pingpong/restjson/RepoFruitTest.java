@@ -42,21 +42,21 @@ public class RepoFruitTest {
 
     @Test
     public void containsTest() {
-        assertTrue(repo.list().stream().anyMatch(f -> f.name.equals("Pineapple")));
+        assertTrue(repo.list().stream().anyMatch(f -> f.getName().equals("Pineapple")));
     }
 
     @Test
     public void removeTest() {
         repo.remove("Apple");
         assertEquals(1, repo.list().size());
-        assertFalse(repo.list().stream().anyMatch(f -> f.name.equals("Apple")));
+        assertFalse(repo.list().stream().anyMatch(f -> f.getName().equals("Apple")));
     }
 
     @Test
     public void addTest() {
         repo.add(new Fruit("Banana", "And an attached Gorilla"));
         assertEquals(3, repo.list().size());
-        assertTrue(repo.list().stream().anyMatch(f -> f.name.equals("Banana")));
+        assertTrue(repo.list().stream().anyMatch(f -> f.getName().equals("Banana")));
     }
     
 }

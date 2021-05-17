@@ -66,7 +66,7 @@ public class ResourceFruit {
     // $ curl -d '{"name":"Banana", "description":"Brings a Gorilla too"}'
     // -H "Content-Type: application/json" -X DELETE http://localhost:8080/fruits   
     public Set<Fruit> delete(@Valid Fruit fruit) {
-        service.remove(fruit.name);
+        service.remove(fruit.getName());
         return list();
     }
 

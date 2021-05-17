@@ -27,7 +27,8 @@ public class FruitResourceTest {
 
     @Test
     public void testHelloEndpoint() {
-        // content-type de la peticion es TEXT para endpoint hello
+        // si el content-type de la peticion es TEXT
+        // responde el endpoint hello
         given()
             .contentType(ContentType.TEXT)
             .when().get("/fruits")
@@ -38,6 +39,8 @@ public class FruitResourceTest {
 
     @Test
     public void testListEndpoint() {
+        // Si el content-type de la peticion es JSON 
+        // responde el endpoint list
         // list() endpoint devuelve lista de maps [{}, {}]
         List<Map<String, Object>> products = 
             given()

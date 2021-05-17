@@ -32,6 +32,6 @@ public class RepoFruit {
     }
 
     public void remove(String name) {
-        this.fruits.removeIf(existingFruit -> existingFruit.name.contentEquals(name));
+        this.fruits.removeIf(existingFruit -> existingFruit.getName().contentEquals(name));
     }
 }
