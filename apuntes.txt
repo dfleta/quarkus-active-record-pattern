@@ -81,6 +81,18 @@ http://maven.apache.org/plugins-archives/maven-surefire-plugin-2.12.4/examples/s
 $ mvn -Dtest=FruitResourceTest test
 $ ./mvnw -Dtest=RepoFruitTest test
 
+Rest-assured
+
+https://rest-assured.io/
+
+Validating JSON examples:
+
+https://www.hascode.com/2011/10/testing-restful-web-services-made-easy-using-the-rest-assured-framework/
+
+Aquí unos vídeos sobre rest-assured:
+
+https://testautomationu.applitools.com/automating-your-api-tests-with-rest-assured/
+
 ----------
 
 CDI
