@@ -58,5 +58,10 @@ public class RepoFruitTest {
         assertEquals(3, repo.list().size());
         assertTrue(repo.list().stream().anyMatch(f -> f.getName().equals("Banana")));
     }
-    
+
+    @Test
+    public void getFruitTest() {
+        Assertions.assertThat(repo.get("Apple")).get().hasFieldOrPropertyWithValue("name", "Apple");
+        Assertions.assertThat(repo.get("Mandarina")).isEmpty();
+    }    
 }

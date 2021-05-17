@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+// importado a mano equalTo
+import static org.hamcrest.Matchers.equalTo;
 
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,13 @@ import javax.ws.rs.core.MediaType;
 
 @QuarkusTest
 public class FruitResourceTest {
+
+    /**
+     * give
+     * expect
+     * when
+     * es la sintaxis legacy REST assured 1.x
+     */
 
     @Test
     public void testHelloEndpoint() {
@@ -70,7 +79,7 @@ public class FruitResourceTest {
     public void testAdd() {
         given()
             .body("{\"name\": \"Banana\", \"description\": \"Brings a Gorilla too\"}")
-                .header("Content-Type", MediaType.APPLICATION_JSON)
+            .header("Content-Type", MediaType.APPLICATION_JSON)
                 .when()
                     .post("/fruits")
                     .then()
@@ -81,7 +90,7 @@ public class FruitResourceTest {
         
         given()
             .body("{\"name\": \"Banana\", \"description\": \"Brings a Gorilla too\"}")
-                .header("Content-Type", MediaType.APPLICATION_JSON)
+            .header("Content-Type", MediaType.APPLICATION_JSON)
                 .when()
                     .delete("/fruits")
                     .then()
@@ -89,5 +98,24 @@ public class FruitResourceTest {
                         .body("$.size()", is(2),
                               "name", containsInAnyOrder("Apple", "Pineapple"),
                               "description", containsInAnyOrder("Winter fruit", "Tropical fruit"));
+    }
+
+    @Test
+    public void getTest() {
+        given()
+            .pathParam("name", "Apple")
+        .when()
+            .get("/fruits/{name}")
+        .then()
+            .contentType(ContentType.JSON)
+            .body("name", equalTo("Apple"));
+
+        // no fruit
+        given()
+            .pathParam("name", "Mandarina")
+        .when()
+            .get("/fruits/{name}")
+        .then()
+            .statusCode(404);
     }
 }

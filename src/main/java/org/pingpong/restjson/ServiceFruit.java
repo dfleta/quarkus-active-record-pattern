@@ -1,5 +1,6 @@
 package org.pingpong.restjson;
 
+import java.util.Optional;
 import java.util.Set;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -25,5 +26,9 @@ public class ServiceFruit {
 
     public void remove(String name) {
         repo.remove(name);
+    }
+
+    public Optional<Fruit> getFruit(String name) {
+        return name.isBlank()? Optional.ofNullable(null) : repo.get(name);
     }
 }

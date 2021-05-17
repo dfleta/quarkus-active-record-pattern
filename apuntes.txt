@@ -67,6 +67,10 @@ CURL
 
 https://gist.github.com/subfuzion/08c5d85437d5d4f00e58
 
+HTTP response status codes
+
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server_error_responses
+
 
 -----------
 
