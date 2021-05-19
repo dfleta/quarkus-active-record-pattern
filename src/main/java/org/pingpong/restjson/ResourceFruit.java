@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -56,6 +57,7 @@ public class ResourceFruit {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
     // curl -d '{"name":"Banana", "description":"Brings a Gorilla too"}'
     // -H "Content-Type: application/json" -X POST http://localhost:8080/fruits
     public Set<Fruit> add(@Valid Fruit fruit) {
@@ -66,6 +68,7 @@ public class ResourceFruit {
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
     // curl -d '{"name":"Banana", "description":"Brings a Gorilla too"}'
     // -H "Content-Type: application/json" -X DELETE http://localhost:8080/fruits   
     public Set<Fruit> delete(@Valid Fruit fruit) {
