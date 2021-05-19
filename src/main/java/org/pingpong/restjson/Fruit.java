@@ -1,18 +1,28 @@
 package org.pingpong.restjson;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({"name", "decription"})
-public class Fruit {
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
-    // los propiedades han de ser publicas para que jackson
-    // pueda acceder a ellar por reflection
+@Entity
+@JsonPropertyOrder({"name", "decription"})
+public class Fruit extends PanacheEntity {
+
+    // Las propiedades han de ser publicas para que jackson
+    // pueda acceder a ellar por reflection o configurar getter y setter
+    // Internamente Quarkus hace la propiedad public
+    // Mantengo el getter porque lo uso en los casos test
     @NotBlank
-    private String name;
+    @Column(unique = true)
+    public String name;
+    
     @NotEmpty
+    @Column
     public String description;
 
     public Fruit() {

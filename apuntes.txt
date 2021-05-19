@@ -102,3 +102,100 @@ https://testautomationu.applitools.com/automating-your-api-tests-with-rest-assur
 CDI
 
 https://quarkus.io/guides/cdi-reference
+
+
+-----------------
+
+BBDD
+
+Bajarse imagen mariadb y crear contenedor (no pasar rm y reutilizar)
+
+$ docker pull mariadb
+
+environment variables:
+
+$ docker run -it --name maria -e MYSQL_ROOT_PASSWORD=developer -e MYSQL_USR=developer -e MYSQL_PASSWORD=developer -e MYSQL_DATABASE=fruit -p 3306:3306 -d mariadb:latest 
+
+
+Installing and Using MariaDB via Docker
+
+https://mariadb.com/kb/en/installing-and-using-mariadb-via-docker/
+
+
+Consola admin: Beekeeper studio: An open source SQL editor and database management app
+
+Instalado desde software de ubuntu
+
+Conectarse como user root 
+
+
+
+Instalar en el proyecto la dependencia quarkus-jdbc-mariadb, jsonb y hiberate-orm
+
+$ ./mvnw quarkus:list-extensions
+
+$ ./mvnw quarkus:add-extension -Dextensions="quarkus-jdbc-mariadb"
+
+$ ./mvnw quarkus:add-extension -Dextensions="quarkus-hibernate-orm-panache"
+[INFO] Scanning for projects...
+
+
+en al application.properties: configurac bbdd del contenedor
+
+  y el update en la hib-orm.database.generation
+
+usar la configuracion de agroal porque la que da en el curso está deprecated
+
+https://quarkus.io/guides/datasource
+
+$ ./mvnw quarkus:add-extension -Dextensions="agroal"
+
+quarkus.datasource.db-kind=mariadb
+quarkus.datasource.username = root
+quarkus.datasource.password = developer
+quarkus.datasource.jdbc.url = jdbc:mariadb://localhost:3306/fruit
+# quarkus.datasource.driver=org.mariadb.jdbc.Driver
+
+# drop and create the database at startup (use `update` to only update the schema)
+# quarkus.hibernate-orm.database.generation = drop-and-create
+quarkus.hibernate-orm.database.generation = update
+
+
+
+2. JPA
+
+id
+
+column
+
+
+la mierda consola mariadb cómo se abre?
+
+3. Panache
+
+dependencia q- hib-orm-panache
+
+developer extiende panache entity
+
+implemtar prop basicas y C y R
+
+Queries con panache:
+
+seguir con findAll()
+
+findbyname()
+
+find().count()
+
+findbynameage() => {name} {age} en el endpoitn
+
+
+Active record pattern == Entity Pattern => Person extends Panache Entity
+
+La entidad tiene todo el código para "adminsitrarse" respecto ala bbdd
+	person.findall()
+
+Repository pattern == DAO parttern => PersonRepository implements PanacheRepository<Person>
+
+	en el controlador se inyecta el DAO (el repo) 
+		personRepo.findAll()
