@@ -169,8 +169,6 @@ id
 column
 
 
-la mierda consola mariadb cómo se abre?
-
 3. Panache
 
 dependencia q- hib-orm-panache
@@ -192,10 +190,31 @@ findbynameage() => {name} {age} en el endpoitn
 
 Active record pattern == Entity Pattern => Person extends Panache Entity
 
-La entidad tiene todo el código para "adminsitrarse" respecto ala bbdd
+https://martinfowler.com/eaaCatalog/activeRecord.html
+
+La entidad tiene todo el código para "administrarse" respecto a la bbdd
 	person.findall()
 
 Repository pattern == DAO parttern => PersonRepository implements PanacheRepository<Person>
 
 	en el controlador se inyecta el DAO (el repo) 
 		personRepo.findAll()
+
+
+------------
+
+TEST CONTAINERS
+
+<dependency>
+	<groupId>org.testcontainers</groupId>
+	<artifactId>mariadb</artifactId>
+	<version>${testcontainers.version}</version>
+	<scope>test</scope>
+</dependency>
+<dependency>
+	<groupId>io.quarkus</groupId>
+	<artifactId>quarkus-jdbc-mariadb</artifactId>
+</dependency>
+
+
+
