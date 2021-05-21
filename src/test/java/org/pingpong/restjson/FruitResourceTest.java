@@ -1,6 +1,5 @@
 package org.pingpong.restjson;
 
-import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
@@ -17,6 +16,7 @@ import static org.hamcrest.Matchers.equalTo;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
 import javax.ws.rs.core.MediaType;
 
 
@@ -25,6 +25,7 @@ import javax.ws.rs.core.MediaType;
  */
 
 @QuarkusTest
+@Transactional
 public class FruitResourceTest {
 
     /**
@@ -40,10 +41,11 @@ public class FruitResourceTest {
         // responde el endpoint hello
         given()
             .contentType(ContentType.TEXT)
-            .when().get("/fruits")
-            .then()
-                .statusCode(200)
-                .body(is("Colmados Farmer Rick"));
+        .when()
+            .get("/fruits")
+        .then()
+            .statusCode(200)
+            .body(is("Colmados Farmer Rick"));
     }
 
     @Test
@@ -58,57 +60,57 @@ public class FruitResourceTest {
                 .as(new TypeRef<List<Map<String, Object>>>() {});
 
         Assertions.assertThat(products).hasSize(2);
-        Assertions.assertThat(products.get(0)).containsValue("Apple");
-        Assertions.assertThat(products.get(1)).containsEntry("description", "Tropical fruit");
+        Assertions.assertThat(products.get(0)).containsKeys("name", "description");
     }
 
     @Test
-    @TestTransaction
     public void testList() {
         given()
             .contentType(ContentType.JSON)
-            .when().get("/fruits/")
-            .then()
-                .statusCode(200)
-                .body("$.size()", is(2),
-                "name", containsInAnyOrder("Apple", "Pineapple"),
-                "description", containsInAnyOrder("Winter fruit", "Tropical fruit"));
+        .when().get("/fruits/")
+        .then()
+            .statusCode(200)
+            .body("$.size()", is(2),
+                  "name", containsInAnyOrder("Apple", "Pineapple"),
+                  "description", containsInAnyOrder("Winter fruit", "Tropical fruit"));
     }
 
     @Test
-    public void testAdd() {
+    public void testAddDelete() {
         given()
             .body("{\"name\": \"Banana\", \"description\": \"Brings a Gorilla too\"}")
             .header("Content-Type", MediaType.APPLICATION_JSON)
-                .when()
-                    .post("/fruits")
-                    .then()
-                        .statusCode(200)
-                        .body("$.size()", is(3),
-                              "name", containsInAnyOrder("Apple", "Pineapple", "Banana"),
-                              "description", containsInAnyOrder("Winter fruit", "Tropical fruit", "Brings a Gorilla too"));
+        .when()
+            .post("/fruits")
+        .then()
+            .statusCode(200)
+            .body("$.size()", is(3),
+                  "name", containsInAnyOrder("Banana", "Apple", "Pineapple"),
+                  "description", containsInAnyOrder("Brings a Gorilla too", "Winter fruit", "Tropical fruit"));
         
         given()
             .body("{\"name\": \"Banana\", \"description\": \"Brings a Gorilla too\"}")
             .header("Content-Type", MediaType.APPLICATION_JSON)
-                .when()
-                    .delete("/fruits")
-                    .then()
-                        .statusCode(200)
-                        .body("$.size()", is(2),
-                              "name", containsInAnyOrder("Apple", "Pineapple"),
-                              "description", containsInAnyOrder("Winter fruit", "Tropical fruit"));
+        .when()
+            .delete("/fruits")
+        .then()
+            .statusCode(200)
+            .body("$.size()", is(2),
+                  "name", containsInAnyOrder("Apple", "Pineapple"),
+                  "description", containsInAnyOrder("Winter fruit", "Tropical fruit"));
     }
-
+    
     @Test
-    public void getTest() {
+    public void getPathParamTest() {
+
         given()
             .pathParam("name", "Apple")
         .when()
             .get("/fruits/{name}")
         .then()
             .contentType(ContentType.JSON)
-            .body("name", equalTo("Apple"));
+            .body("name", equalTo("Apple"),
+                  "description", equalTo("Winter fruit"));
 
         // no fruit
         given()
