@@ -1,17 +1,43 @@
-# rest-json-quarkus project
+# rest-json-quarkus Active Record pattern and testcontainers
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+## Docker mariadb
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+Descargar la imagen:
 
-## Running the application in dev mode
+`docker pull mariadb:latest`
 
-You can run your application in dev mode that enables live coding using:
-```shell script
-./mvnw compile quarkus:dev
+Arrancar el contenedor con la configuración de `application.properties`:
+
+`docker run -it --rm --name maria_fresh -e MYSQL_ROOT_PASSWORD=developer -e MYSQL_USR=developer -e MYSQL_PASSWORD=developer -e MYSQL_DATABASE=fruit -p 3306:3306 -d mariadb:latest`
+
+Parar el contenedor:
+
+`docker container stop maria_fresh`
+
+## Ejecutar la aplicación en dev mode y dev profile
+
+Con el contenedor corriendo:
+
+`./mvnw clean compile quarkus:dev -Dquarkus.profile=dev`
+
+## Testing de la aplicación
+
+Debes disponer de una imagen docker `mariadb:latest`. No es necesario arrancar el contenedor antes pues `testcontainers` se encarga de ello:
+
+```bash
+# All tests
+./mvnw test
+# Unit testing
+./mvnw -Dtest="ServiceFruitTest" test
+# Integration test
+./mvnw -Dtest="FruitResourceTest" test
 ```
 
 > **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+
+## ¿Cómo lo has hecho?
+
+Bucea en la coleccion de recursos que he utilizado: [apuntes](./apuntes.txt)
 
 ## Packaging and running the application
 
@@ -44,21 +70,5 @@ Or, if you don't have GraalVM installed, you can run the native executable build
 You can then execute your native executable with: `./target/rest-json-quarkus-1.0.0-SNAPSHOT-runner`
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.html.
-
-## Related guides
-
-- RESTEasy JAX-RS ([guide](https://quarkus.io/guides/rest-json)): REST endpoint framework implementing JAX-RS and more
-
-## Provided examples
-
-### RESTEasy JAX-RS example
-
-REST is easy peasy with this Hello World RESTEasy resource.
-
-[Related guide section...](https://quarkus.io/guides/getting-started#the-jax-rs-resources)
-
-### RESTEasy JSON serialisation using Jackson
-
-This example demonstrate RESTEasy JSON serialisation by letting you list, add and remove quark types from a list. Quarked!
 
 [Related guide section...](https://quarkus.io/guides/rest-json#creating-your-first-json-rest-service)
