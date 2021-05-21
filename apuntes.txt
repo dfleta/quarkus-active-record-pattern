@@ -245,3 +245,42 @@ CREATE TABLE fruit
 );
 INSERT INTO fruit (id, name, description) VALUES ('1', 'Apple', 'Winter fruit');
 INSERT INTO fruit (id, name, description) VALUES ('2', 'Pineapple', 'Tropical fruit');
+
+
+---------------
+
+Onload scripts:
+
+https://quarkus.io/guides/hibernate-orm#quarkus-hibernate-orm_quarkus.hibernate-orm.sql-load-script
+
+Hibernate ORM in development mode
+
+https://quarkus.io/guides/hibernate-orm#dev-mode
+
+Configuration profiles
+
+https://quarkus.io/guides/config#configuration-profiles
+
+In dev and test modes, it defaults to import.sql. Simply add an import.sql file in the root of your resources directory and it will be picked up without having to set this property. Pass no-file to force Hibernate ORM to ignore the SQL import file.
+
+
+$ docker run -it --rm --name maria_init_scripts -e MYSQL_ROOT_PASSWORD=developer -e MYSQL_USR=developer -e MYSQL_PASSWORD=developer -e MYSQL_DATABASE=fruit -p 3306:3306 -d mariadb:latest
+
+$ ./mvnw clean compile quarkus:dev -Dquarkus.profile=dev
+
+$ ./mvnw -Dtest="FruitResourceTest" test
+
+(esto dispara el profile test de application.properties y ejecuta el import-test.sql
+al arrancar el testcontainer)
+
+-------------------------
+
+Misterio del transactional resuelto:
+
+https://github.com/quarkusio/quarkus/issues/6463
+
+--------------
+
+SWAGGER 
+
+https://hantsy.medium.com/kickstart-your-first-quarkus-application-cde54f469973

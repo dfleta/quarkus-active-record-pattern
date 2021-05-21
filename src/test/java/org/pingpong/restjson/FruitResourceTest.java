@@ -16,6 +16,7 @@ import static org.hamcrest.Matchers.equalTo;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
 import javax.ws.rs.core.MediaType;
 
 
@@ -24,6 +25,7 @@ import javax.ws.rs.core.MediaType;
  */
 
 @QuarkusTest
+@Transactional
 public class FruitResourceTest {
 
     /**
@@ -39,10 +41,11 @@ public class FruitResourceTest {
         // responde el endpoint hello
         given()
             .contentType(ContentType.TEXT)
-            .when().get("/fruits")
-            .then()
-                .statusCode(200)
-                .body(is("Colmados Farmer Rick"));
+        .when()
+            .get("/fruits")
+        .then()
+            .statusCode(200)
+            .body(is("Colmados Farmer Rick"));
     }
 
     @Test
@@ -56,62 +59,49 @@ public class FruitResourceTest {
                 .when().get("/fruits")
                 .as(new TypeRef<List<Map<String, Object>>>() {});
 
-        Assertions.assertThat(products).hasSize(0);
-        // Assertions.assertThat(products.get(0)).containsValue("Apple");
-        // Assertions.assertThat(products.get(1)).containsEntry("description", "Tropical fruit");
+        Assertions.assertThat(products).hasSize(2);
+        Assertions.assertThat(products.get(0)).containsKeys("name", "description");
     }
 
-    /*
     @Test
-    @TestTransaction
     public void testList() {
         given()
             .contentType(ContentType.JSON)
-            .when().get("/fruits/")
-            .then()
-                .statusCode(200)
-                .body("$.size()", is(2),
-                "name", containsInAnyOrder("Apple", "Pineapple"),
-                "description", containsInAnyOrder("Winter fruit", "Tropical fruit"));
-    } */
+        .when().get("/fruits/")
+        .then()
+            .statusCode(200)
+            .body("$.size()", is(2),
+                  "name", containsInAnyOrder("Apple", "Pineapple"),
+                  "description", containsInAnyOrder("Winter fruit", "Tropical fruit"));
+    }
 
     @Test
-    public void testAdd() {
+    public void testAddDelete() {
         given()
             .body("{\"name\": \"Banana\", \"description\": \"Brings a Gorilla too\"}")
             .header("Content-Type", MediaType.APPLICATION_JSON)
-                .when()
-                    .post("/fruits")
-                    .then()
-                        .statusCode(200)
-                        .body("$.size()", is(1),
-                              "name", containsInAnyOrder("Banana"),
-                              "description", containsInAnyOrder("Brings a Gorilla too"));
+        .when()
+            .post("/fruits")
+        .then()
+            .statusCode(200)
+            .body("$.size()", is(3),
+                  "name", containsInAnyOrder("Banana", "Apple", "Pineapple"),
+                  "description", containsInAnyOrder("Brings a Gorilla too", "Winter fruit", "Tropical fruit"));
         
         given()
             .body("{\"name\": \"Banana\", \"description\": \"Brings a Gorilla too\"}")
             .header("Content-Type", MediaType.APPLICATION_JSON)
-                .when()
-                    .delete("/fruits")
-                    .then()
-                        .statusCode(200)
-                        .body("$.size()", is(0));
+        .when()
+            .delete("/fruits")
+        .then()
+            .statusCode(200)
+            .body("$.size()", is(2),
+                  "name", containsInAnyOrder("Apple", "Pineapple"),
+                  "description", containsInAnyOrder("Winter fruit", "Tropical fruit"));
     }
-
     
     @Test
-    public void getTest() {
-
-        given()
-        .body("{\"name\": \"Apple\", \"description\": \"Picked by children in August\"}")
-        .header("Content-Type", MediaType.APPLICATION_JSON)
-            .when()
-                .post("/fruits")
-                .then()
-                    .statusCode(200)
-                    .body("$.size()", is(1),
-                          "name", containsInAnyOrder("Apple"),
-                          "description", containsInAnyOrder("Picked by children in August"));
+    public void getPathParamTest() {
 
         given()
             .pathParam("name", "Apple")
@@ -120,7 +110,7 @@ public class FruitResourceTest {
         .then()
             .contentType(ContentType.JSON)
             .body("name", equalTo("Apple"),
-                  "description", equalTo("Picked by children in August"));
+                  "description", equalTo("Winter fruit"));
 
         // no fruit
         given()

@@ -2,6 +2,7 @@ package org.pingpong.restjson;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 @Entity
+@Table(name="Fruit")
 @JsonPropertyOrder({"name", "decription"})
 public class Fruit extends PanacheEntity {
 
@@ -17,6 +19,7 @@ public class Fruit extends PanacheEntity {
     // pueda acceder a ellar por reflection o configurar getter y setter
     // Internamente Quarkus hace la propiedad public
     // Mantengo el getter porque lo uso en los casos test
+
     @NotBlank
     @Column(unique = true)
     public String name;
