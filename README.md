@@ -1,4 +1,35 @@
-# rest-json-quarkus Active Record pattern and testcontainers
+# Rest-json-quarkus Active Record pattern and testcontainers
+
+## Ejecutar la api (modo JVM)
+
+Prepara el quarkus jar de la api que se incluirá en la imagen JVM que se construirá con docker-compose: 
+
+`$ mvn package -Dmaven.test.skip=true`
+
+Ejecuta:
+
+`$ docker-compose up`
+
+Para finalizar la ejecución:
+
+`docker-compose down`
+
+En http://localhost/8080 se sirve un pequeño front.
+
+Endpoints:
+
+```bash
+curl -w "\n" http://localhost:8080/fruits/ -H "Content-Type: application/x-www-form-urlencoded"
+
+curl -w "\n" http://localhost:8080/fruits/ -H "Content-Type: application/json"
+
+curl -d '{"name":"Banana", "description":"Brings a Gorilla too"}' -H "Content-Type: application/json" -X POST http://localhost:8080/fruits
+
+curl -d '{"name":"Banana", "description":"Brings a Gorilla too"}' -H "Content-Type: application/json" -X DELETE http://localhost:8080/fruits
+
+curl -w "\n" http://localhost:8080/fruits/Apple -v
+curl -w "\n" http://localhost:8080/fruits/Pizza -v
+```
 
 ## Docker mariadb
 
