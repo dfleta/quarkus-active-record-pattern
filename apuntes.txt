@@ -284,3 +284,40 @@ https://github.com/quarkusio/quarkus/issues/6463
 SWAGGER 
 
 https://hantsy.medium.com/kickstart-your-first-quarkus-application-cde54f469973
+
+
+-------------
+
+Docker compose
+
+Cambiar en application.properties la URL de la máquina donde corre
+el contenedor mariadb. Ya no es localhost, sino el nombre db que ha
+de resolverse por DNS => lo hace compose con la key aliases
+
+Hay que poner esa url en el perfil prod (que es el de por defecto) y 
+añadir la URL en los perfiles test y dev. Si creo la entrada:
+
+%prod.quarkus.datasource.jdbc.url=jdbc:mariadb://db:3306/fruit
+
+no funciona. Hay que configurarlo del modo:
+
+%test.quarkus.datasource.jdbc.url=jdbc:mariadb://localhost:3306/fruit
+%dev.quarkus.datasource.jdbc.url=jdbc:mariadb://localhost:3306/fruit
+
+
+y luego:
+
+$ mvn test  
+=> compila con el perfil test
+
+$ mvn clean compile quarkus:Dev -Dquarkus.profile=dev   
+=> compila el perfil dev
+
+$ mvn package -Dmaven.test.skip=true 
+compila el perfil prod
+Es necesario preparar el jar de quarkus para que Dockerfile.jvm
+lo incluya en la imagen que creará con docker-compose.
+
+$ java -jar target/quarkus-app/quarkus-run.jar 
+
+$ docker-compose up --build
